@@ -1,71 +1,49 @@
-# Apache Spark Standalone Cluster
+# Apache Saprk Standalone cluster with Docker
 
-This image has centos 8, Java 11 and Apache Spark 3.1.1 binary with prebuilt for Hadoop 3.2 or later
+### To Build the application, run the below command
 
-## Maintainer
-Jiffin Joachim Gomez
-
-## Spark file path
-
+PS: Run the below command where the docker-compose.yml file is located
 ```bash
-/opt/spark
+docker-compose up --build -d
 ```
 
-## To Run Spark Master
+### To Stop the application and remove the container, run the below command
+
 ```bash
-systemctl start spark-master
-```
-### Optional: You can edit the spark-master system service by editing
-```bash
-nano /etc/systemd/system/spark-master.service
+docker-compose down
 ```
 
-## To Run Spark Slave
+### Spark Master 
+
+Spark Master Web UI: 8080  
+Spark Master: 7077
+
+### Spark Slave
+Spark Slave Web UI: 8081
+If spark Slave Web UI is not accessible, Do the following:
+
+To check Spark Slave is running, run the below command in Spark-Slave container
+
 ```bash
 systemctl start spark-slave
 ```
 
-### Optional: You can edit the spark-slave system service by editing
+If spark slave is disabled, then run the below command in the Spark-Slave container
 ```bash
-nano /etc/systemd/system/spark-slave.service
+./home/start.sh
 ```
-
-## Additional Options
-
-You can set spark-env, spark-defaults.conf etc to the spark directory and customize your environment
-
-### Sample spark-env for spark-master
-```bash
-SPARK_MASTER_HOST=0.0.0.0
-SPARK_MASTER_PORT=7077
-SPARK_DRIVER_CORES=2
-SPARK_DRIVER_MEMORY=2g
-SPARK_DRIVER_PORT=5001
-SPARK_UI_PORT=5002
-SPARK_BLOCKMGR_PORT=5003
-```
-
-### Sample spark-env for spark-slave
-```bash
-SPARK_MASTER_HOST=host.docker.internal
-SPARK_MASTER_PORT=7077
-SPARK_WORKER_CORES=2
-SPARK_WORKER_MEMORY=2g
-SPARK_DRIVER_PORT=5001
-SPARK_UI_PORT=5002
-SPARK_BLOCKMGR_PORT=5003
-```
-
-## Default Ports
-
-Spark Master Web UI can be accessed from 8080  
-Spark Master can be accessed from 7077
-Spark Slave Web UI can be accessed from 8081
-
-Please note that you can customize ports according to your need.
+Now, check the spark slave is running in port 8081, 8082
 
 ### How to run a Spark job
 
 Open the container shell of Spark-Master container, Go to the project folder, by default you will be on project folder, run the below command to submit a spark job
 ```bash
  /opt/spark/bin/spark-submit filename
+```
+
+eg: to submit yearly job
+```bash
+ /opt/spark/bin/spark-submit Yearly_Orders.py
+```
+
+You can view the progress in the shell and on the spark web UI, which will be running on port 8080 for spark master and for spark slave on port 8081 and 8082.
