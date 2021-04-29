@@ -1,0 +1,53 @@
+version: '3.7'
+services:
+  spark_master:
+    build:
+      context: ./SourceCode/docker/Spark-Master
+      dockerfile: ./Dockerfile
+    container_name: spark_master
+    privileged: true
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+      - "5000-5010:5000-5010"
+    networks:
+      - spark_net
+    tty: true
+
+  spark_worker1:
+    build:
+      context: ./SourceCode/docker/Spark-Slave
+      dockerfile: ./Dockerfile
+    container_name: spark_worker1
+    depends_on:
+      - spark_master
+    privileged: true
+    environment:
+      SPARK_MASTER_HOST: host.docker.internal
+      SPARK_MASTER_PORT: 7077
+    ports:
+      - "8081:8081"
+    networks:
+      - spark_net
+    tty: true
+
+  spark_worker2:
+    build:
+      context: ./SourceCode/docker/Spark-Slave
+      dockerfile: ./Dockerfile
+    container_name: spark_worker2
+    depends_on:
+      - spark_master
+    privileged: true
+    environment:
+      SPARK_MASTER_HOST: host.docker.internal
+      SPARK_MASTER_PORT: 7077
+    ports:
+      - "8082:8081"
+    networks:
+      - spark_net
+    tty: true
+
+networks:
+  spark_net:
+    driver: bridge
