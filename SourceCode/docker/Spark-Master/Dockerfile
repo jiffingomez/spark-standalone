@@ -11,4 +11,3 @@ ENTRYPOINT ["/usr/sbin/init"]
 
 CMD ["/home/start.sh"]
 
-WORKDIR "/home/applications/ReflexDinerAnalytics"
