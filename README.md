@@ -43,7 +43,7 @@ Open the container shell of Spark-Master container, Go to the project folder, by
 
 eg: to submit yearly job
 ```bash
- /opt/spark/bin/spark-submit Yearly_Orders.py
+ /opt/spark/bin/spark-submit Yearly_Job.py
 ```
 
 You can view the progress in the shell and on the spark web UI, which will be running on port 8080 for spark master and for spark slave on port 8081 and 8082.
